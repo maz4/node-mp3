@@ -1,0 +1,16 @@
+#files
+.scannerwork
+.idea
+.env
+.DS_Store
+**/.DS_Store
+logfile.log
+*.code-workspace
+ffmpg
+
+#directories
+coverage
+node_modules
+build
+input
+output
