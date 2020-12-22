@@ -1,29 +1,26 @@
-const ffmpeg = require('fluent-ffmpeg')
-const fs = require('fs')
+const {getAudio} = require('./src/exportAudio');
+const {getFilesListArray, replaceExtensionToMp3} = require('./src/manageFiles');
+
+const [inputArg, outputArg] = process.argv.slice(2);
 
 const INPUT_DIR = './input'
 const OUTPUT_DIR = './output'
 
-const {readdirSync} = fs;
+const inputPath = inputArg || INPUT_DIR
+const outputPath = outputArg || OUTPUT_DIR
 
-const filesList = readdirSync(INPUT_DIR).map(file => file)
+const filesList = getFilesListArray(inputPath);
 
-const inputFile = `${INPUT_DIR}/${filesList[0]}`
-const outputFile = `${OUTPUT_DIR}/test1.mp3`
+const amountOfFiles = filesList.length;
 
-//Test
-// ffmpeg(inputFile)
-//   .output(outputFile)
-//   .noVideo()
-//   .audioCodec('libmp3lame')
-//   // .duration(134.5)
-//   .on('start', function() {
-//     console.log('Processing your file');
-//   })
-//   .on('end', function() {
-//     console.log('Finished processing');
-//   })
-//   .on('error', function(err) {
-//     console.log('Error happened: ', err);
-//   })
-//   .run()
+if(amountOfFiles){
+  for(let i = 0; i < amountOfFiles; i++){
+    const inputFile = `${inputPath}/${filesList[i]}`
+    const outputFileName = replaceExtensionToMp3(filesList[i])
+    const outputFile = `${outputPath}/${outputFileName}`
+  
+    getAudio(inputFile, outputFile)
+  }
+} else {
+  console.log('No files in the directory')
+}
