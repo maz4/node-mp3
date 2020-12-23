@@ -1,13 +1,14 @@
 const fs = require('fs');
 const path = require('path');
+const { fileFormats } = require('./fileFormats');
 
-const {readdirSync} = fs;
+const { readdirSync } = fs;
 
-function getFilesListArray(location){
-  const files = []
-  readdirSync(location).forEach(file => {
+function getFilesListArray(location) {
+  const files = [];
+  readdirSync(location).forEach((file) => {
     const fileExt = path.extname(file);
-    if(fileExt != ''){
+    if (fileExt != '') {
       files.push(file);
     }
   });
@@ -15,13 +16,25 @@ function getFilesListArray(location){
   return files;
 }
 
-function replaceExtensionToMp3(file){
-  const fileDir = path.dirname(file)
-  const replacedExt = path.basename(file, path.extname(file)) + '.mp3'
-  return path.join(fileDir, replacedExt)
+function replaceExtensionToMp3(file) {
+  const fileDir = path.dirname(file);
+  const replacedExt = path.basename(file, path.extname(file)) + '.mp3';
+  return path.join(fileDir, replacedExt);
+}
+
+function filterFiles(filesArray) {
+  if (!filesArray) {
+    return [];
+  }
+
+  return filesArray.filter((file) => {
+    const fileExt = path.extname(file);
+    return fileFormats.includes(fileExt);
+  });
 }
 
 module.exports = {
   getFilesListArray,
-  replaceExtensionToMp3
-}
+  replaceExtensionToMp3,
+  filterFiles
+};
