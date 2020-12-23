@@ -6,7 +6,8 @@ const { readdirSync } = fs;
 
 function getFilesListArray(location) {
   const files = [];
-  readdirSync(location).forEach((file) => {
+  const directory = readdirSync(location);
+  directory.forEach((file) => {
     const fileExt = path.extname(file);
     if (fileExt != '') {
       files.push(file);

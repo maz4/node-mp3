@@ -3,6 +3,10 @@ const ffmpeg = require('fluent-ffmpeg');
 const MP3_CODEC = 'libmp3lame';
 
 async function getAudio(input, output) {
+  if (!input || !output) {
+    throw new Error('No input or output provided');
+  }
+
   return new Promise((res, rej) => {
     ffmpeg(input)
       .output(output)
@@ -15,7 +19,7 @@ async function getAudio(input, output) {
       })
       .on('error', (err) => {
         console.log('Error happened: ', err);
-        rej();
+        rej(err);
       })
       .run();
   });
