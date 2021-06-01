@@ -312,7 +312,8 @@ const fileFormats = [
   '.xwd_pipe',
   '.xwma',
   '.yop',
-  '.yuv4mpegpipe'
+  '.yuv4mpegpipe',
+  '.mkv'
 ];
 
 module.exports = {
